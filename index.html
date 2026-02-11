@@ -6,8 +6,94 @@
     <title>Document</title>
 </head>
 <body>
+    <p style="text-align: center;">This game is played in the console! Press F12 to see the output</p>
+
     <script>
-        console.log("hello world :)");
+        playGame();
+
+        function playGame()
+        {
+            let playerScore = 0;
+            let computerScore = 0;
+
+            for (let i = 0; i < 5; i++)
+            {
+                playRound(getHumanChoice(), getComputerChoice());
+            }
+
+            // end of game message
+            if (playerScore > computerScore)
+                console.log(`You won! Player: ${playerScore} Computer: ${computerScore}`);
+            else if (playerScore < computerScore)
+                console.log(`You lost :( Player: ${playerScore} Computer: ${computerScore}`);
+
+            function playRound(humanChoice, computerChoice)
+            {
+                let winner = "none";
+
+                if (humanChoice == "rock")
+                {
+                    if (computerChoice == "rock")
+                        winner = "none";
+                    else if (computerChoice == "paper")
+                        winner = "computer";
+                    else if (computerChoice == "scissors")
+                        winner = "player";
+                }
+                else if (humanChoice == "paper")
+                {
+                    if (computerChoice == "rock")
+                        winner = "player";
+                    else if (computerChoice == "paper")
+                        winner = "none";
+                    else if (computerChoice == "scissors")
+                        winner = "computer";
+                }
+                else // human choice is scissors
+                {
+                    if (computerChoice == "rock")
+                        winner = "computer";
+                    else if (computerChoice == "paper")
+                        winner = "player";
+                    else if (computerChoice == "scissors")
+                        winner = "none";
+                }
+
+                // conclude round after choices have been compared
+                if (winner == "player")
+                {
+                    console.log(`Player wins! ${humanChoice} beats ${computerChoice}.`);
+                    playerScore++;
+                }
+                else if (winner == "computer")
+                {
+                    console.log(`Computer wins! ${computerChoice} beats ${humanChoice}.`);
+                    computerScore++;
+                }
+                else
+                {
+                    console.log(`Stalemate... ${humanChoice} against itself does nothing.`);
+                    // redo round since this won't affec the score
+                    playRound(getHumanChoice(), getComputerChoice());
+                }
+            }
+
+            function getComputerChoice()
+            {
+                let choiceNum = Math.random();
+                if (choiceNum < 0.33)
+                    return "rock";
+                if (choiceNum < 0.66)
+                    return "paper";
+                return "scissors";
+            }
+
+            function getHumanChoice()
+            {
+                let choice = prompt("Rock, Paper, or Scissors?");
+                return choice.toLowerCase();
+            }
+        }
     </script>
 </body>
 </html>
